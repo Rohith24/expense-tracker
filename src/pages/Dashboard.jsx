@@ -10,8 +10,9 @@ const DashBoard = () => {
     const {userName} = useLoaderData()
     return (
         <div>
-            <hi>{userName}</hi>
-            DashBoard
+            <h1 className="text-6xl font-bold underline">
+                Hello world!
+            </h1>
         </div>
     )
 }
