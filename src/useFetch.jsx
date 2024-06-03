@@ -4,27 +4,35 @@ const useFetch = (url) => {
     const [data, setData] = useState(null);
     const [isLoading, setIdLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const fullUrl = 'http://localhost:1337/' + url;
     useEffect(()=>{
-        fetch(url)
-        .then(res=> {
-            return res.json();
-        }).then(data => {
-            if(data.code === "0"){
-                setData(data.accounts);
-                setIdLoading(false);
-                setError(null);
-            }
-            else{
-                setIdLoading(false);
-                setError(data.message);
-            }
-        }).catch((e)=>{
-            setIdLoading(false);
-            setError(e.message);
-        });
-        console.log('used effect, every render');
-    }, []);
+        const abortCont = new AbortController();
+
+        setTimeout(()=>{
+            fetch(fullUrl, {signal: abortCont.signal})
+            .then(res=> {
+                return res.json();
+            }).then(data => {
+                if(data.code === "0"){
+                    setData(data);
+                    setIdLoading(false);
+                    setError(null);
+                }
+                else{
+                    setIdLoading(false);
+                    setError(data.message);
+                }
+            }).catch((e)=>{
+                if(e.name === 'AbortError'){
+                    console.log("Link is used, It will not call server. so abort will work");
+                }else{
+                    setIdLoading(false);
+                    setError(e.message);
+                }
+            });
+        }, 5000)
+        return () => abortCont.abort();
+    }, [url]);
 
     return {data, isLoading, error}
 }

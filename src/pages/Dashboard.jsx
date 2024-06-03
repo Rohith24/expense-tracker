@@ -15,7 +15,7 @@ export function dashBoardLoader(){
 
 const DashBoard = () => {
     const [name, setName] = useState("Hello World");
-    const {data, isLoading, error} = useFetch('http://localhost:1337/api/accounts');
+    const {data, isLoading, error} = useFetch('api/accounts');
 
     const OnSubmit=()=>{
         console.log("Clicked");
@@ -30,13 +30,11 @@ const DashBoard = () => {
             <div className="flex flex-col items-center gap-y-3">
             <Button className="rounded-full" color="green" onClick={OnSubmit} >Submit</Button>
             { isLoading && <Button variant="outlined" loading={true}>Loading</Button>}
-            { error &&  <h1 className="text-6xl font-bold" >
-                {error}
-            </h1>}
+            { error &&  <h1 className="text-6xl font-bold" >{error}</h1>}
             </div>
             <div className="mb-4 flex items-start gap-x-6">
-                { data && <AccountList accounts={data.filter((a) => a.type==="Savings")} title="Savings Accounts"/> }
-                { data && <AccountList accounts={data.filter((a) => a.type==="Credit Card")} title="Credit Card Accounts"/>}    
+                { data?.accounts && <AccountList accounts={data.accounts.filter((a) => a.type==="Savings")} title="Savings Accounts"/> }
+                { data?.accounts && <AccountList accounts={data.accounts.filter((a) => a.type==="Credit Card")} title="Credit Card Accounts"/>}    
             </div>
         </div>
     )

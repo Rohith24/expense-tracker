@@ -1,5 +1,6 @@
 import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const AccountList = ({accounts, title}) => {
 
@@ -24,15 +25,15 @@ const AccountList = ({accounts, title}) => {
                 </Typography>
                 </div>
                 <div className="divide-y-4 divide-gray-200">
-                {accounts.map(({ name, bankId, balance, type }, index) => (
+                {accounts.map(({ _id, name, bankId, balance, type }, index) => (
                     <div
                     key={index}
                     className="flex items-center justify-between pb-3 pt-3 last:pb-0"
                     >
                     <div className="flex flex-col gap-y-0">
-                        <Typography color="brown" variant="h6" className="text-left">
+                        <Link to={`/accounts/${_id}`} color="brown" variant="h6" className="text-left">
                             {name}
-                        </Typography>
+                        </Link>
                         <Typography variant="small" color="gray">
                             {bankId} - {type}
                         </Typography>

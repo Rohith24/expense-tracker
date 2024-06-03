@@ -8,6 +8,7 @@ import DashBoard, { dashBoardLoader } from './pages/Dashboard';
 import Error from './pages/Error';
 import Main, { MainLoader } from './pages/layouts/Main';
 import { NavbarDefault } from './Nav/Navbar';
+import AccountDetails from './banking/AccountDetails';
 
 const router = createBrowserRouter([
   {
@@ -25,13 +26,16 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <h1>About</h1>
+      },
+      {
+        path: "/accounts/:id",
+        element: <AccountDetails/>
       }
     ]
   },
 ]);
 
 function App() {
-  const title = "Tracker";
   return (
     <div className="App">
       <NavbarDefault />
