@@ -3,7 +3,7 @@ import { fetchData } from "../helpers"
 import { useState } from "react";
 import AccountList from "../banking/AccountList";
 import { Button } from "@material-tailwind/react";
-import useFetch from "../useFetch";
+import useFetch from "../Service/useFetch";
 
 
 export function dashBoardLoader(){

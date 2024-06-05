@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 
+const baseUrl = 'http://localhost:1337/';
+
 const useFetch = (url) => {
     const [data, setData] = useState(null);
     const [isLoading, setIdLoading] = useState(true);
     const [error, setError] = useState(null);
-    const fullUrl = 'http://localhost:1337/' + url;
+    const fullUrl = baseUrl + url;
     useEffect(()=>{
         const abortCont = new AbortController();
 

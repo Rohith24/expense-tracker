@@ -9,6 +9,7 @@ import Error from './pages/Error';
 import Main, { MainLoader } from './pages/layouts/Main';
 import { NavbarDefault } from './Nav/Navbar';
 import AccountDetails from './banking/AccountDetails';
+import AccountCreate from './banking/AccountCreate';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/accounts/:id",
         element: <AccountDetails/>
+      },
+      {
+        path: "/accounts/create",
+        element: <AccountCreate/>
       }
     ]
   },

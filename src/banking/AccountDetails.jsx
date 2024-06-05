@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import useFetch from "../useFetch";
+import useFetch from "../Service/useFetch";
 import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 
 const AccountDetails = () => {
