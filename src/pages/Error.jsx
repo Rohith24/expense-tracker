@@ -1,7 +1,7 @@
 const Error = () => {
     return (
-        <div>
-            Error
+        <div className="">
+            Sorry, The Page not found.
         </div>
     )
 }

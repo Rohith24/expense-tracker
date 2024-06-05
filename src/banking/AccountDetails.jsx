@@ -1,15 +1,36 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useFetch from "../Service/useFetch";
 import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
+import { useState } from "react";
+import { DeleteAccount } from "../Service/AccountService";
 
 const AccountDetails = () => {
     const {id} = useParams();
     const {data, error, isLoading} = useFetch(`api/accounts/${id}`)
+
+    const [isPending, setIsPending] = useState(false);
+    const navigation = useNavigate();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setIsPending(true);
+        
+        DeleteAccount({id, user: "deleteUser"}).then((resp) => {
+            console.log(resp);
+            navigation('/');
+        }).catch((message) => {
+            console.log(message);
+        }).finally(()=>{
+            setIsPending(false);
+        });
+    }
+
     return ( 
         <div className="contents">
             { isLoading && <Button variant="outlined" loading={true}>Loading</Button>}
             { error &&  <h1 className="text-6xl font-bold" >{error}</h1>}
             { data?.account && 
+                <div>
                 <Card className="w-100">
                     <CardBody>
                         <div
@@ -87,6 +108,10 @@ const AccountDetails = () => {
                         </div>
                     </CardBody>
                 </Card>
+                <div className="mb-6 flex flex-row gap-6">
+                    <Button className="mt-6 text-center" fullWidth onClick={handleSubmit} loading={isPending}>Delete</Button>
+                </div>
+                </div>
             }
         </div>
      );

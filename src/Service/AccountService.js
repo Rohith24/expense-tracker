@@ -24,3 +24,14 @@ export async function SaveAccount(formData) {
     }
 
 }
+
+export async function DeleteAccount(formData) {
+    const headers = getHeaders();
+    try {
+        const response = await axios.delete(`${API_URL}/accounts/${formData.id}`, { headers });
+        return response.data;
+    } catch (err) {
+        throw new Error(err.message || " Network request failed");
+    }
+
+}
