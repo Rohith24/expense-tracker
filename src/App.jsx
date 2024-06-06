@@ -12,6 +12,7 @@ import AccountCreate from './banking/AccountCreate';
 import { logoutAction } from './actions/logout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/ReactToastify.css'
+import { LogInAction } from './components/Login';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,8 @@ const router = createBrowserRouter([
         index: true,
         element: <DashBoard />,
         loader: dashBoardLoader,
+        action: LogInAction,
+        errorElement: <Error />
       },
       {
         path: "about",

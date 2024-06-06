@@ -108,25 +108,25 @@ export function NavbarDefault({userName}) {
  
   return (
     <Navbar className="mx-auto max-w-screen-2xl px-4 py-2 lg:px-8 lg:py-4">
-      <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
-        <NavLink className="flex justify-between" to="/" aria-label="Go to Home">
-          <img src={budget}  alt="logo-ct" className="w-10" />
-          <Typography
-            as="h1"
-            className="mr-4 ml-1 cursor-pointer py-1.5 font-medium"
-            >
-            Expense Tracker
-          </Typography>
-        </NavLink>
-        <div className="hidden lg:block">{navList}</div>
-        {
-            (userName != null || userName != undefined) && (
-              <Form method="post" action="/logout">
+      <Form method="post" action="/logout">
+        <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
+          <NavLink className="flex justify-between" to="/" aria-label="Go to Home">
+            <img src={budget}  alt="logo-ct" className="w-10" />
+            <Typography
+              as="h1"
+              className="mr-4 ml-1 cursor-pointer py-1.5 font-medium"
+              >
+              Expense Tracker
+            </Typography>
+          </NavLink>
+          <div className="hidden lg:block">{navList}</div>
+          {
+              (userName != null || userName != undefined) && (
                 <div className="flex items-center gap-x-1">
                   <Button variant="text" size="sm" className="hidden lg:inline-block">
                     <span>Logged in as {userName}</span>
                   </Button>
-                  <TrashIcon  className="size-5 text-slate-500" />
+                  <TrashIcon  className="hidden lg:inline-block size-5 text-slate-500" />
                   <Button
                     variant="gradient"
                     size="sm"
@@ -136,64 +136,72 @@ export function NavbarDefault({userName}) {
                     Log Out
                   </Button>
                 </div>
-              </Form>
-            )
-        }
-        <IconButton
-          variant="text"
-          className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-          ripple={false}
-          onClick={() => setOpenNav(!openNav)}
-        >
-          {openNav ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              className="h-6 w-6"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          )}
-        </IconButton>
-      </div>
-      <MobileNav open={openNav}>
-        <div className="container mx-auto">
-          {navList}
-          <div className="flex items-center gap-x-1">
-            {
-              (userName != null || userName != undefined) && (
-                <Button fullWidth variant="text" size="sm" className="">
-                  <span>Logged in as {userName}</span>
-                </Button>
               )
-            }
-            <Button fullWidth variant="gradient" size="sm" className="">
-              <span>Sign in</span>
-            </Button>
-          </div>
+          }
+          <IconButton
+            variant="text"
+            className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+            ripple={false}
+            onClick={() => setOpenNav(!openNav)}
+          >
+            {openNav ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                className="h-6 w-6"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            )}
+          </IconButton>
         </div>
-      </MobileNav>
+        <MobileNav open={openNav}>
+          <div className="container mx-auto">
+            {navList}
+            <div className="flex items-center gap-x-1">
+              {
+                (userName != null || userName != undefined) && (
+                  <Button fullWidth variant="text" size="sm" className="">
+                    <span>Logged in as {userName}</span>
+                  </Button>
+                )
+              }
+              <button
+                  class="align-middle select-none font-sans font-bold text-center uppercase transition-all 
+                  disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 
+                  rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 text-white shadow-md 
+                  shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] 
+                  flex items-center gap-3 w-full justify-center"
+                  type="submit">
+                  <TrashIcon className="size-5 text-slate-500" />
+                  Log Out
+              </button>
+
+            </div>
+          </div>
+        </MobileNav>
+      </Form>
     </Navbar>
   );
 }
