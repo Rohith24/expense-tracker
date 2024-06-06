@@ -6,9 +6,11 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
-import { PresentationChartBarIcon } from '@heroicons/react/24/solid'
+import { PresentationChartBarIcon, TrashIcon } from '@heroicons/react/24/solid'
+import budget from "../assets/budget.png";
+import { Form, NavLink } from "react-router-dom";
 
-export function NavbarDefault() {
+export function NavbarDefault({userName}) {
   const [openNav, setOpenNav] = React.useState(false);
  
   React.useEffect(() => {
@@ -27,9 +29,9 @@ export function NavbarDefault() {
         className="flex items-center gap-x-2 p-1 font-medium"
       >
         <PresentationChartBarIcon className="size-5 text-slate-500" />
-        <a href="/" className="flex items-center">
+        <NavLink to="/" className="flex items-center">
           Dashboard
-        </a>
+        </NavLink>
       </Typography>
       <Typography
         as="li"
@@ -105,28 +107,38 @@ export function NavbarDefault() {
   );
  
   return (
-    <Navbar className="mx-auto max-w-screen-xl px-4 py-2 lg:px-8 lg:py-4">
+    <Navbar className="mx-auto max-w-screen-2xl px-4 py-2 lg:px-8 lg:py-4">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
-        <Typography
-          as="a"
-          href="/"
-          className="mr-4 cursor-pointer py-1.5 font-medium"
-        >
-          Expense Tracker
-        </Typography>
+        <NavLink className="flex justify-between" to="/" aria-label="Go to Home">
+          <img src={budget}  alt="logo-ct" className="w-10" />
+          <Typography
+            as="h1"
+            className="mr-4 ml-1 cursor-pointer py-1.5 font-medium"
+            >
+            Expense Tracker
+          </Typography>
+        </NavLink>
         <div className="hidden lg:block">{navList}</div>
-        <div className="flex items-center gap-x-1">
-          <Button variant="text" size="sm" className="hidden lg:inline-block">
-            <span>Log In</span>
-          </Button>
-          <Button
-            variant="gradient"
-            size="sm"
-            className="hidden lg:inline-block"
-          >
-            <span>Sign in</span>
-          </Button>
-        </div>
+        {
+            (userName != null || userName != undefined) && (
+              <Form method="post" action="/logout">
+                <div className="flex items-center gap-x-1">
+                  <Button variant="text" size="sm" className="hidden lg:inline-block">
+                    <span>Logged in as {userName}</span>
+                  </Button>
+                  <TrashIcon  className="size-5 text-slate-500" />
+                  <Button
+                    variant="gradient"
+                    size="sm"
+                    className="hidden lg:inline-block"
+                    type="submit"
+                  >
+                    Log Out
+                  </Button>
+                </div>
+              </Form>
+            )
+        }
         <IconButton
           variant="text"
           className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -169,9 +181,13 @@ export function NavbarDefault() {
         <div className="container mx-auto">
           {navList}
           <div className="flex items-center gap-x-1">
-            <Button fullWidth variant="text" size="sm" className="">
-              <span>Log In</span>
-            </Button>
+            {
+              (userName != null || userName != undefined) && (
+                <Button fullWidth variant="text" size="sm" className="">
+                  <span>Logged in as {userName}</span>
+                </Button>
+              )
+            }
             <Button fullWidth variant="gradient" size="sm" className="">
               <span>Sign in</span>
             </Button>

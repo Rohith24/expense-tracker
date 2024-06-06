@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router-dom";
-import { fetchData } from "../helpers"
+import { fetchData } from "../Service/helpers"
 import { useState } from "react";
 import AccountList from "../banking/AccountList";
 import { Button } from "@material-tailwind/react";
@@ -14,7 +14,7 @@ export function dashBoardLoader(){
 
 
 const DashBoard = () => {
-    const [name, setName] = useState("Hello World");
+    const [name, setName] = useState("Hello");
     const {data, isLoading, error} = useFetch('api/accounts');
 
     const OnSubmit=()=>{
@@ -25,7 +25,7 @@ const DashBoard = () => {
     return (
         <div>
             <h1 className="text-6xl font-bold" >
-                {name}
+                {name} {userName}!!
             </h1>
             <div className="flex flex-col items-center gap-y-3">
             <Button className="rounded-full" color="green" onClick={OnSubmit} >Submit</Button>

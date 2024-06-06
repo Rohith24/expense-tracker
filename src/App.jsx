@@ -1,5 +1,4 @@
 import logo from './logo.svg';
-import './App.css';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -10,6 +9,9 @@ import Main, { MainLoader } from './pages/layouts/Main';
 import { NavbarDefault } from './Nav/Navbar';
 import AccountDetails from './banking/AccountDetails';
 import AccountCreate from './banking/AccountCreate';
+import { logoutAction } from './actions/logout';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/ReactToastify.css'
 
 const router = createBrowserRouter([
   {
@@ -22,7 +24,6 @@ const router = createBrowserRouter([
         index: true,
         element: <DashBoard />,
         loader: dashBoardLoader,
-        errorElement: <Error />,
       },
       {
         path: "about",
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/accounts/create",
         element: <AccountCreate/>
+      },
+      {
+        path: "logout",
+        action: logoutAction
       }
     ]
   },
@@ -43,8 +48,8 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div className="App">
-      <NavbarDefault />
       <RouterProvider router={router} />
+      <ToastContainer />
     </div>
   );
 }
