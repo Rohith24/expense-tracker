@@ -99,7 +99,7 @@ export function NavbarDefault({userName}) {
             fill="#90A4AE"
           />
         </svg>
-        <a href="#" className="flex items-center">
+        <a href="/transaction/create" className="flex items-center">
           Transaction
         </a>
       </Typography>
@@ -121,7 +121,7 @@ export function NavbarDefault({userName}) {
           </NavLink>
           <div className="hidden lg:block">{navList}</div>
           {
-              (userName != null || userName != undefined) && (
+              (userName !== null || userName !== undefined) && (
                 <div className="flex items-center gap-x-1">
                   <Button variant="text" size="sm" className="hidden lg:inline-block">
                     <span>Logged in as {userName}</span>
@@ -181,7 +181,7 @@ export function NavbarDefault({userName}) {
             {navList}
             <div className="flex items-center gap-x-1">
               {
-                (userName != null || userName != undefined) && (
+                (userName !== null || userName !== undefined) && (
                   <Button fullWidth variant="text" size="sm" className="">
                     <span>Logged in as {userName}</span>
                   </Button>

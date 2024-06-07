@@ -10,20 +10,13 @@ import {
     Button,
   } from "@material-tailwind/react";
 import { Form } from "react-router-dom";
-import { toast } from "react-toastify";
+import { loginAction } from "../actions/login";
 
 export async function LogInAction({request}){
     const data = await request.formData();
     const formData = Object.fromEntries(data);
     console.log({data, request, formData});
-    try{
-        localStorage.setItem("userName", JSON.stringify(formData.email));
-        return toast.success(`Welcome ${formData.email}`);
-    }
-    catch (e){
-        throw new Error("Unable to sign In");
-    }
-    
+    return await loginAction(formData);
 }
    
   export function Login() {
@@ -41,6 +34,7 @@ export async function LogInAction({request}){
             </CardHeader>
             <CardBody className="flex flex-col gap-4">
             <Input label="Email" name="email" size="lg" />
+            <input type="hidden" name="_actionType" value="login" />
             <Input label="Password" name="password" type="password" size="lg" />
             <div className="-ml-2.5">
                 <Checkbox label="Remember Me" />

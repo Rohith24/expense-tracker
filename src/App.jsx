@@ -3,16 +3,15 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import DashBoard, { dashBoardLoader } from './pages/Dashboard';
+import DashBoard, { DashboardAction, dashBoardLoader } from './pages/Dashboard';
 import Error from './pages/Error';
 import Main, { MainLoader } from './pages/layouts/Main';
-import { NavbarDefault } from './Nav/Navbar';
 import AccountDetails from './banking/AccountDetails';
 import AccountCreate from './banking/AccountCreate';
 import { logoutAction } from './actions/logout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/ReactToastify.css'
-import { LogInAction } from './components/Login';
+import AddTransaction, { AddTransactionAction } from './components/AddTransaction';
 
 const router = createBrowserRouter([
   {
@@ -25,7 +24,7 @@ const router = createBrowserRouter([
         index: true,
         element: <DashBoard />,
         loader: dashBoardLoader,
-        action: LogInAction,
+        action: DashboardAction,
         errorElement: <Error />
       },
       {
@@ -43,6 +42,11 @@ const router = createBrowserRouter([
       {
         path: "logout",
         action: logoutAction
+      },
+      {
+        path: "/transaction/create",
+        element: <AddTransaction/>,
+        action: AddTransactionAction
       }
     ]
   },
