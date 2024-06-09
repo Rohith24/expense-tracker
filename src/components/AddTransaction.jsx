@@ -12,17 +12,18 @@ export async function AddTransactionAction({request}){
     
 }
 
-const AddTransaction = () => {
+const AddTransaction = ({accounts}) => {
     const fetcher = useFetcher()
     const isSubmitting = fetcher.state === "submitting"
 
     const formRef= useRef();
 
-    const [type, setType] = useState('');
+    const [type, setType] = useState('Debit');
     const [fromAccount, setFromAccount] = useState('');
     const [toAccount, setToAccount] = useState('');
-    const [amount, setAmount] = useState('');
+    const [amount, setAmount] = useState(0);
     const [category, setCategory] = useState('');
+    const [details, setDetails] = useState('');
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -33,22 +34,23 @@ const AddTransaction = () => {
         if (!isSubmitting) {
             console.log("UseEffect")
             formRef.current.reset() // It clears form if we didn't bind values.
-            setType('')
+            setType('Debit')
             setFromAccount('')
             setToAccount('')
             setDate(today)
             setCurrentDate(today)
-            setAmount('')
+            setAmount(0)
             setCategory('')
+            setDetails('')
         }
-      }, [isSubmitting])
+    }, [isSubmitting])
 
-      const handleDateChange = (date) => {
+    const handleDateChange = (date) => {
         setDate(date);
         setCurrentDate(date);
         console.log(date ? date.toISOString() : 'No date selected');
-      };
-    
+    };
+
     return (
         <div className="mb-4 justify-between">
             <Typography color="red" variant="h2">Add New Transaction</Typography>
@@ -76,23 +78,54 @@ const AddTransaction = () => {
                         <Option value="Transfer">Transfer</Option>
                     </Select>
                 </div>
-                <div className="mb-6 flex flex-row gap-6 items-center">
-                    <Typography className="flex-col w-1/3" variant="small" color="gray">
-                    From Account:
-                    </Typography>
-                    <Input type="text" name="fromAccountId" value={fromAccount} required onChange={(e) => setFromAccount(e.target.value)}/>
-                </div>
-                <div className="mb-6 flex flex-row gap-6 items-center">
-                    <Typography className="flex-col w-1/3" variant="small" color="gray">
-                    To Account:
-                    </Typography>
-                    <Input type="text" name="toAccountId" value={toAccount} required onChange={(e) => setToAccount(e.target.value)}/>
-                </div>
+                {
+                    (type !== "Credit") && 
+                    <div className="mb-6 flex flex-row gap-6 items-center">
+                        <Typography className="flex-col w-1/3" variant="small" color="gray">
+                        {
+                            (type === "Transfer") && "From "
+                        }
+                        Account:
+                        </Typography>
+                        <select  name="fromAccountId" label="From Account" required value={fromAccount} onChange={(e) => setFromAccount(e.target.value)}
+                        className="w-full h-full bg-transparent text-blue-gray-700 fxt-left outline outline-0 focus:outline-0 ont-sans font-normal tedisabled:bg-blue-gray-50 disabled:border-0 disabled:cursor-not-allowed transition-all border text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200"
+                        >
+                            {
+                                accounts.map((account)=>{
+                                    return (
+                                        <option value={account._id}>{account.name}</option>
+                                    )
+                                })
+                            }
+                        </select>
+                    </div>
+                }
+                {
+                    (type !== "Debit") && 
+                    <div className="mb-6 flex flex-row gap-6 items-center">
+                        <Typography className="flex-col w-1/3" variant="small" color="gray">
+                        {
+                            (type === "Transfer") && "To "
+                        }
+                        Account:
+                        </Typography>
+                        <select  name="toAccountId" label="To Account" required value={toAccount} onChange={(e) => setToAccount(e.target.value)}
+                        className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal text-left outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 disabled:cursor-not-allowed transition-all border text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200">
+                            {
+                                accounts.map((account)=>{
+                                    return (
+                                        <option value={account._id}>{account.name}</option>
+                                    )
+                                })
+                            }
+                        </select>
+                    </div>
+                }
                 <div className="mb-6 flex flex-row gap-6 items-center">
                     <Typography className="flex-col w-1/3" variant="small" color="gray">
                     Amount:
                     </Typography>
-                    <Input type="text" label="Amount" name="amount" value={amount} required onChange={(e) => setAmount(e.target.value)}/>
+                    <Input type="number" label="Amount" name="amount" value={amount} required onChange={(e) => setAmount(e.target.value)}/>
                 </div>
                 <div className="mb-6 flex flex-row gap-6 items-center">
                     <Typography className="flex-col w-1/3" variant="small" color="gray">
@@ -100,8 +133,14 @@ const AddTransaction = () => {
                     </Typography>
                     <Input type="text" label="Category" name="category" value={category} required onChange={(e) => setCategory(e.target.value)}/>
                 </div>
+                <div className="mb-6 flex flex-row gap-6 items-center">
+                    <Typography className="flex-col w-1/3" variant="small" color="gray">
+                    Details:
+                    </Typography>
+                    <Input type="text" label="Details" name="details" value={details} onChange={(e) => setDetails(e.target.value)}/>
+                </div>
                 <div className="mb-6 flex flex-row gap-6">
-                    <Button className="mt-6 text-center items-center justify-center" fullWidth type="submit" loading={isSubmitting}>{
+                    <Button className="mt-6 text-center items-center justify-center" fullWidth type="submit" title="Create Transaction" loading={isSubmitting}>{
                         isSubmitting ? "Creating transaction" : "Create Transaction"
                     }</Button>
                 </div>
