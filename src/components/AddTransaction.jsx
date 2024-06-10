@@ -12,7 +12,7 @@ export async function AddTransactionAction({request}){
     
 }
 
-const AddTransaction = ({accounts}) => {
+const AddTransaction = ({accounts, budgets}) => {
     const fetcher = useFetcher()
     const isSubmitting = fetcher.state === "submitting"
 
@@ -52,13 +52,13 @@ const AddTransaction = ({accounts}) => {
     };
 
     return (
-        <div className="mb-4 justify-between">
+        <div className="mb-4 justify-between max-w-screen-lg sm:w-96">
             <Typography color="red" variant="h2">Add New Transaction</Typography>
             <div>
             <fetcher.Form 
                 method="post" 
                 ref={formRef}
-                className="mt-8 mb-6 w-450 max-w-screen-lg sm:w-96"
+                className="mt-8 mb-6"
             >
                 <input type="hidden" name="_actionType" value="AddTransaction" />
                 <div className="mb-6 flex flex-row gap-6 items-center">
@@ -127,12 +127,33 @@ const AddTransaction = ({accounts}) => {
                     </Typography>
                     <Input type="number" label="Amount" name="amount" value={amount} required onChange={(e) => setAmount(e.target.value)}/>
                 </div>
-                <div className="mb-6 flex flex-row gap-6 items-center">
-                    <Typography className="flex-col w-1/3" variant="small" color="gray">
-                    Category:
-                    </Typography>
-                    <Input type="text" label="Category" name="category" value={category} required onChange={(e) => setCategory(e.target.value)}/>
-                </div>
+                {
+                    budgets && budgets.length > 0 ?
+                    (
+                        <div className="mb-6 flex flex-row gap-6 items-center">
+                            <Typography className="flex-col w-1/3" variant="small" color="gray">
+                            Category:
+                            </Typography>
+                            <select  name="category" label="Category" required value={category} onChange={(e) => setCategory(e.target.value)}
+                            className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal text-left outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 disabled:cursor-not-allowed transition-all border text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200">
+                                {
+                                    budgets?.map((budget)=>{
+                                        return (
+                                            <option value={budget._id}>{budget.name}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
+                    ) : (
+                        <div className="mb-6 flex flex-row gap-6 items-center">
+                            <Typography className="flex-col w-1/3" variant="small" color="gray">
+                            Category:
+                            </Typography>
+                            <Input type="text" label="Category" name="category" value={category} required onChange={(e) => setCategory(e.target.value)}/>
+                        </div>
+                    )
+                }
                 <div className="mb-6 flex flex-row gap-6 items-center">
                     <Typography className="flex-col w-1/3" variant="small" color="gray">
                     Details:

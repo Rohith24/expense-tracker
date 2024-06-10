@@ -1,20 +1,22 @@
 import { useLoaderData } from "react-router-dom";
 import { fetchData } from "../Service/helpers"
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import AccountList from "../banking/AccountList";
 import { Button } from "@material-tailwind/react";
-import useFetch from "../Service/useFetch";
 import Home from "../components/Home";
 import AddTransaction from "../components/AddTransaction";
 import { toast } from "react-toastify";
 import { addTransactionAction } from "../actions/addTransaction";
 import { loginAction } from "../actions/login";
-import { getAccounts } from "../Service/AccountService";
+import AddBudget from "../components/AddBudget";
+import { addBudgetAction } from "../actions/addBudget";
+import { getDashboardData } from "../Service/DashboardService";
 
 
-export function dashBoardLoader(){
+export async function dashBoardLoader(){
     const userName = fetchData("userName");
-    return { userName }
+    const data = await getDashboardData();
+    return { userName, data }
 }
 
 export async function DashboardAction({request}){
@@ -48,34 +50,22 @@ export async function DashboardAction({request}){
         // } -- It is not updating as setAccount is not accessible.
         return transaction;
     }
+    else if(formData._actionType === 'AddBudget'){
+        return await addBudgetAction(formData);
+    }
     else{
-        console.log({data, request, formData});
-        try{
-            localStorage.setItem("userName", JSON.stringify(formData.email));
-            return toast.success(`Welcome ${formData.email}`);
-        }
-        catch (e){
-            throw new Error("Unable to sign In");
-        }
+        return toast.warn(`No Action taken`);
     }
 }
 
 const DashBoard = () => {
     const [name, setName] = useState("Hello");
-    const {data, isLoading, error} = useFetch(getAccounts);
-    const [accounts, setAccounts] = useState([]);
-
-    useEffect(() => {
-        if (data && data.accounts) {
-            setAccounts(data.accounts);
-        }
-    }, [data]);
 
     const OnSubmit=()=>{
         console.log("Clicked");
         setName("Clicked");
     }
-    const {userName} = useLoaderData()
+    const {userName, data} = useLoaderData()
     return (
         <div>
             {
@@ -86,13 +76,14 @@ const DashBoard = () => {
                     </h1>
                     <div className="flex flex-col items-center gap-y-3">
                     <Button className="rounded-full" color="green" onClick={OnSubmit} >Submit</Button>
-                    { isLoading && <Button variant="outlined" loading={true}>Loading</Button>}
-                    { error &&  <h1 className="text-6xl font-bold" >{error}</h1>}
                     </div>
                     <div className="mb-4 flex items-start gap-x-6">
-                        { accounts && <AccountList accounts={accounts.filter((a) => a.type==="Savings")} title="Savings Accounts"/> }
-                        { accounts && <AccountList accounts={accounts.filter((a) => a.type==="Credit Card")} title="Credit Card Accounts"/>}    
-                        { accounts && <AddTransaction accounts={accounts} /> }
+                        { data?.accounts && <AccountList accounts={data?.accounts.filter((a) => a.type==="Savings")} title="Savings Accounts"/> }
+                        { data?.accounts && <AccountList accounts={data?.accounts.filter((a) => a.type==="Credit Card")} title="Credit Card Accounts"/>}    
+                        <AddBudget />
+                    </div>
+                    <div className="mb-4 flex items-start gap-x-6">
+                    { data?.accounts && <AddTransaction accounts={data?.accounts} budgets={data?.budgets} /> }
                     </div>
                     </>
                 ) : (
