@@ -11,6 +11,8 @@ import { loginAction } from "../actions/login";
 import AddBudget from "../components/AddBudget";
 import { addBudgetAction } from "../actions/addBudget";
 import { getDashboardData } from "../Service/DashboardService";
+import BudgetPieChart from "../components/Charts/BudgetPieChart";
+import BudgetBarChart from "../components/Charts/BudgetBarChart";
 
 
 export async function dashBoardLoader(){
@@ -67,32 +69,23 @@ const DashBoard = () => {
     }
     const {userName, data} = useLoaderData()
     return (
-        <div>
-            {
-                userName ? (
-                    <>
-                    <h1 className="text-6xl font-bold" >
-                        {name} {userName}!!
-                    </h1>
-                    <div className="flex flex-col items-center gap-y-3">
-                    <Button className="rounded-full" color="green" onClick={OnSubmit} >Submit</Button>
-                    </div>
-                    <div className="mb-4 flex items-start gap-x-6">
-                        { data?.accounts && <AccountList accounts={data?.accounts.filter((a) => a.type==="Savings")} title="Savings Accounts"/> }
-                        { data?.accounts && <AccountList accounts={data?.accounts.filter((a) => a.type==="Credit Card")} title="Credit Card Accounts"/>}    
-                        <AddBudget />
-                    </div>
-                    <div className="mb-4 flex items-start gap-x-6">
-                    { data?.accounts && <AddTransaction accounts={data?.accounts} budgets={data?.budgets} /> }
-                    </div>
-                    </>
-                ) : (
-                    <Home />
-                )
-            }
-
-        
-        </div>
+        userName ? (
+            data?.accounts && (
+            <>
+                <div className="mb-4 flex items-start gap-x-6">
+                    <BudgetPieChart budgets={data.budgets}/>
+                    <AddTransaction accounts={data.accounts} budgets={data.budgets} />
+                    <BudgetBarChart budgets={data.budgets}/>
+                </div> 
+                <div className="mb-4 flex items-start gap-x-6">
+                    <AccountList accounts={data.accounts.filter((a) => a.type==="Savings")} title="Savings Accounts"/>
+                    <AccountList accounts={data.accounts.filter((a) => a.type==="Credit Card")} title="Credit Card Accounts"/>
+                    <AddBudget />
+                </div>
+            </>)) : 
+            (
+            <Home />
+            )
     )
 }
 

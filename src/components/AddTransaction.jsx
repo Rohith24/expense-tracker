@@ -53,7 +53,7 @@ const AddTransaction = ({accounts, budgets}) => {
 
     return (
         <div className="mb-4 justify-between max-w-screen-lg sm:w-96">
-            <Typography color="red" variant="h2">Add New Transaction</Typography>
+            <Typography color="red" variant="h4">Add New Transaction</Typography>
             <div>
             <fetcher.Form 
                 method="post" 
