@@ -26,7 +26,7 @@ const AccountList = ({accounts, title}) => {
                 </Typography>
                 </div>
                 <div className="divide-y-4 divide-gray-200">
-                {accounts.map(({ _id, name, bankId, balance, type }, index) => (
+                {accounts.map(({ _id, name, bankId, balance, type, currency }, index) => (
                     <div
                     key={index}
                     className="flex items-center justify-between pb-3 pt-3 last:pb-0"
@@ -44,7 +44,7 @@ const AccountList = ({accounts, title}) => {
                     href="/"
                     variant="small"
                     className="font-bold">
-                        {formatCurrency(balance)}
+                        {formatCurrency(balance, currency)}
                     </Typography>
                     </div>
                 ))}

@@ -2,11 +2,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import useFetch from "../Service/useFetch";
 import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import { useState } from "react";
-import { DeleteAccount } from "../Service/AccountService";
+import { DeleteAccount, getAccount } from "../Service/AccountService";
 
 const AccountDetails = () => {
     const {id} = useParams();
-    const {data, error, isLoading} = useFetch(`api/accounts/${id}`)
+    const {data, error, isLoading} = useFetch(getAccount, id)
 
     const [isPending, setIsPending] = useState(false);
     const navigation = useNavigate();

@@ -1,6 +1,19 @@
 import axios from "axios";
 import { API_URL, getHeaders } from './BaseService'
 
+export async function getAccounts() {
+    try {
+        const headers = getHeaders();
+        const response = await axios(
+            `${API_URL}/accounts`, { headers }
+        );
+        return response.data;
+    } catch (error) {
+        throw new Error("Network request failed");
+    }
+
+}
+
 export async function getAccount(id) {
     try {
         const headers = getHeaders();

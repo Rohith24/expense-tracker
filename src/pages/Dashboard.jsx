@@ -9,6 +9,7 @@ import AddTransaction from "../components/AddTransaction";
 import { toast } from "react-toastify";
 import { addTransactionAction } from "../actions/addTransaction";
 import { loginAction } from "../actions/login";
+import { getAccounts } from "../Service/AccountService";
 
 
 export function dashBoardLoader(){
@@ -61,7 +62,7 @@ export async function DashboardAction({request}){
 
 const DashBoard = () => {
     const [name, setName] = useState("Hello");
-    const {data, isLoading, error} = useFetch('api/accounts');
+    const {data, isLoading, error} = useFetch(getAccounts);
     const [accounts, setAccounts] = useState([]);
 
     useEffect(() => {
