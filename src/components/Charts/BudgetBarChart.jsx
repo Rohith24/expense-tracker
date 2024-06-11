@@ -10,7 +10,7 @@ import Chart from "react-apexcharts";
 export default function BudgetBarChart({budgets}) {
 
 
-  const used = budgets.map(budget => budget.tillNow);
+  const Spent = budgets.map(budget => budget.tillNow);
   const amounts = budgets.map(budget => budget.amount-budget.tillNow);
   const names = budgets.map(budget => budget.name);
   
@@ -20,11 +20,11 @@ const chartConfig = {
   width: 500,
   series: [
     {
-      name: "Used",
-      data: used,
+      name: "Spent",
+      data: Spent,
     },
     {
-      name: "Left",
+      name: "Remaning",
       data: amounts,
     },
   ],
@@ -35,6 +35,17 @@ const chartConfig = {
       toolbar: {
         show: false,
       },
+      events: {
+        dataPointSelection: (event, chartContext, config) => {
+          console.log("Name: " + names[config.dataPointIndex])
+          if(config.seriesIndex === 0){
+            console.log("Spent: " + Spent[config.dataPointIndex])
+          }
+          else{
+            console.log("Remaning: " + amounts[config.dataPointIndex])
+          }
+        }
+      }
     },
     title: {
       show: "",

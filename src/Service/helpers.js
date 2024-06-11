@@ -12,3 +12,5 @@ export const formatCurrency = (amount, currency) => {
         currency: currency
     })
 }
+
+export const formatDateToLocaleString = (epoch) => new Date(epoch).toLocaleDateString();

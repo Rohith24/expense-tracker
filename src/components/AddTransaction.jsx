@@ -29,10 +29,10 @@ const AddTransaction = ({accounts, budgets}) => {
     today.setHours(0, 0, 0, 0);
     const [currentDate, setCurrentDate] = useState(today);
     const [date, setDate] = useState(today);
-
+    const [transferId, setTransferId] = useState();
+    
     useEffect(() => {
         if (!isSubmitting) {
-            console.log("UseEffect")
             formRef.current.reset() // It clears form if we didn't bind values.
             setType('Debit')
             setFromAccount('')
@@ -45,10 +45,13 @@ const AddTransaction = ({accounts, budgets}) => {
         }
     }, [isSubmitting])
 
+    useEffect(()=>{
+        setTransferId(budgets.find((b)=>b.name === "Transfer")._id);
+    }, [budgets])
+
     const handleDateChange = (date) => {
         setDate(date);
         setCurrentDate(date);
-        console.log(date ? date.toISOString() : 'No date selected');
     };
 
     return (
@@ -134,7 +137,7 @@ const AddTransaction = ({accounts, budgets}) => {
                             <Typography className="flex-col w-1/3" variant="small" color="gray">
                             Category:
                             </Typography>
-                            <select  name="category" label="Category" required value={category} onChange={(e) => setCategory(e.target.value)}
+                            <select  name="category" label="Category" required value={(type === "Transfer") ? transferId : category} onChange={(e) => setCategory(e.target.value)}
                             className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal text-left outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 disabled:cursor-not-allowed transition-all border text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200">
                                 {
                                     budgets?.map((budget)=>{
@@ -152,7 +155,7 @@ const AddTransaction = ({accounts, budgets}) => {
                             </Typography>
                             <Input type="text" label="Category" name="category" value={category} required onChange={(e) => setCategory(e.target.value)}/>
                         </div>
-                    )
+                    ) 
                 }
                 <div className="mb-6 flex flex-row gap-6 items-center">
                     <Typography className="flex-col w-1/3" variant="small" color="gray">

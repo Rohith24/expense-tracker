@@ -12,6 +12,7 @@ import { logoutAction } from './actions/logout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/ReactToastify.css'
 import AddTransaction, { AddTransactionAction } from './components/AddTransaction';
+import { AllTransactionsTable, transactionLoader } from './components/AllTransactionsTable';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,11 @@ const router = createBrowserRouter([
       {
         path: "/accounts/create",
         element: <AccountCreate/>
+      },
+      {
+        path: "/transactions",
+        loader: transactionLoader,
+        element: <AllTransactionsTable />
       },
       {
         path: "logout",

@@ -1,8 +1,8 @@
-import { useLoaderData } from "react-router-dom";
-import { fetchData } from "../Service/helpers"
+import { Link, useLoaderData } from "react-router-dom";
+import { fetchData, formatCurrency } from "../Service/helpers"
 import { useState } from "react";
 import AccountList from "../banking/AccountList";
-import { Button } from "@material-tailwind/react";
+import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import Home from "../components/Home";
 import AddTransaction from "../components/AddTransaction";
 import { toast } from "react-toastify";
@@ -13,6 +13,7 @@ import { addBudgetAction } from "../actions/addBudget";
 import { getDashboardData } from "../Service/DashboardService";
 import BudgetPieChart from "../components/Charts/BudgetPieChart";
 import BudgetBarChart from "../components/Charts/BudgetBarChart";
+import { RecentTransactions } from "../components/RecentTransactions";
 
 
 export async function dashBoardLoader(){
@@ -28,28 +29,6 @@ export async function DashboardAction({request}){
         return await loginAction(formData);
     }else if(formData._actionType === 'AddTransaction'){
         const transaction = await addTransactionAction(formData);
-        // const updatedAccount = transaction.fromAccount
-        // if (updatedAccount) {
-        //     setAccounts((prevAccounts) => {
-        //         const a= prevAccounts.map((account) => {
-        //             console.log({account, updatedAccount});
-        //             return (account._id === updatedAccount._id) ? updatedAccount : account
-        //         });
-        //         console.log(a);
-        //         return a;
-        //     });
-        // }
-        // const toAccount = transaction.toAccount
-        // if (toAccount) {
-        //     setAccounts((prevAccounts) => {
-        //         const a= prevAccounts.map((account) => {
-        //             console.log({account, toAccount});
-        //             return (account._id === toAccount._id) ? toAccount : account
-        //         });
-        //         console.log(a);
-        //         return a;
-        //     });
-        // } -- It is not updating as setAccount is not accessible.
         return transaction;
     }
     else if(formData._actionType === 'AddBudget'){
@@ -81,6 +60,9 @@ const DashBoard = () => {
                     <AccountList accounts={data.accounts.filter((a) => a.type==="Savings")} title="Savings Accounts"/>
                     <AccountList accounts={data.accounts.filter((a) => a.type==="Credit Card")} title="Credit Card Accounts"/>
                     <AddBudget />
+                </div>
+                <div className="mb-4 flex items-start gap-x-6">
+                    <RecentTransactions transactions={data.recentTransactions}/>
                 </div>
             </>)) : 
             (
