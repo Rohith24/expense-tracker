@@ -1,7 +1,9 @@
-import { Outlet, useLoaderData } from "react-router-dom";
+import { Outlet, useLoaderData, useNavigation } from "react-router-dom";
 import { fetchData } from "../../Service/helpers";
 import { NavbarDefault } from "../../Nav/Navbar";
 import { Footer } from "./Footer";
+import Loading from "../../components/Loading";
+
 
 export function MainLoader(){
     const userName = fetchData("userName");
@@ -9,16 +11,24 @@ export function MainLoader(){
 }
 
 const Main = () => {
-    const {userName} = useLoaderData()
+    const { userName } = useLoaderData()
+
+    const { state } = useNavigation()
     return (
-        <div>
-            <main>
+        <div className="flex flex-col min-h-screen">
+            <main className="flex-grow" >
                 <NavbarDefault userName={userName} />
-                <div className="mx-auto max-w-screen-2xl px-4 py-2 lg:px-8 lg:py-4">
-                <Outlet />
-                </div>
-                <Footer />
+                {
+                    (state === 'loading') ? 
+                        <Loading />
+                    : (
+                        <div className="mx-auto max-w-screen-2xl py-2">
+                            <Outlet />
+                        </div>
+                    )
+                }
             </main>
+            <Footer />
         </div>
     )
 }
