@@ -39,7 +39,7 @@ const AddTransaction = ({accounts, budgets}) => {
     }, [isSubmitting])
 
     useEffect(()=>{
-        setTransferId(budgets.find((b)=>b.name === "Transfer")._id);
+        setTransferId(budgets.find((b)=>b.name === "Transfer")?._id);
     }, [budgets])
 
     const handleDateChange = (date) => {
