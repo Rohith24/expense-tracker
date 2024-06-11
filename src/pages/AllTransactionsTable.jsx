@@ -1,10 +1,9 @@
 import { Card, Typography } from "@material-tailwind/react";
-import { formatCurrency, formatDateToLocaleString } from "../Service/helpers";
 import { NavLink, useNavigate, useLoaderData } from "react-router-dom";
 import { formatTransactions, getTransactions } from "../Service/TransactionService";
 import { getAccounts } from "../Service/AccountService";
 import { getBudgets } from "../Service/BudgetService";
-import { TransactionTable } from "./TransactionTable";
+import { TransactionTable } from "../components/TransactionTable";
  
 export async function transactionLoader(){
 

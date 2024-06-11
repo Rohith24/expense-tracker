@@ -5,13 +5,6 @@ import DatePicker from 'rsuite/DatePicker';
 import 'rsuite/DatePicker/styles/index.css';
 import { addTransactionAction } from "../actions/addTransaction";
 
-export async function AddTransactionAction({request}){
-    const data = await request.formData();
-    const formData = Object.fromEntries(data);
-    return await addTransactionAction(formData);
-    
-}
-
 const AddTransaction = ({accounts, budgets}) => {
     const fetcher = useFetcher()
     const isSubmitting = fetcher.state === "submitting"

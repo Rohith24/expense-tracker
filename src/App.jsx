@@ -11,8 +11,8 @@ import AccountCreate from './banking/AccountCreate';
 import { logoutAction } from './actions/logout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/ReactToastify.css'
-import AddTransaction, { AddTransactionAction } from './components/AddTransaction';
-import { AllTransactionsTable, transactionLoader } from './components/AllTransactionsTable';
+import { AllTransactionsTable, transactionLoader } from './pages/AllTransactionsTable';
+import CreateTransaction, { AddTransactionAction, createTransactionLoader } from './pages/CreateTransaction';
 
 const router = createBrowserRouter([
   {
@@ -51,7 +51,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/transaction/create",
-        element: <AddTransaction/>,
+        element: <CreateTransaction/>,
+        loader: createTransactionLoader,
         action: AddTransactionAction
       }
     ]
