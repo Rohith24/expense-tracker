@@ -1,20 +1,24 @@
-import { useNavigate, useParams } from "react-router-dom";
-import useFetch from "../Service/useFetch";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import { useState } from "react";
 import { DeleteAccount, getAccount } from "../Service/AccountService";
+import { RecentTransactions } from "../components/RecentTransactions";
+
+
+export async function accountDetailsLoader({params}){
+    const data = await getAccount(params.id);
+    return { data }
+}
 
 const AccountDetails = () => {
     const {id} = useParams();
-    const {data, error, isLoading} = useFetch(getAccount, id)
+    const {data} = useLoaderData();
 
     const [isPending, setIsPending] = useState(false);
     const navigation = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsPending(true);
-        
         DeleteAccount({id, user: "deleteUser"}).then((resp) => {
             console.log(resp);
             navigation('/');
@@ -27,8 +31,6 @@ const AccountDetails = () => {
 
     return ( 
         <div className="contents">
-            { isLoading && <Button variant="outlined" loading={true}>Loading</Button>}
-            { error &&  <h1 className="text-6xl font-bold" >{error}</h1>}
             { data?.account && 
                 <div>
                 <Card className="w-100">
@@ -111,6 +113,9 @@ const AccountDetails = () => {
                 <div className="mb-6 flex flex-row gap-6">
                     <Button className="mt-6 text-center" fullWidth onClick={handleSubmit} loading={isPending}>Delete</Button>
                 </div>
+                {
+                    data.account.Transactions && <RecentTransactions transactions={data.account.Transactions} />
+                }
                 </div>
             }
         </div>

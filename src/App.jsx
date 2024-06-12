@@ -6,7 +6,7 @@ import {
 import DashBoard, { DashboardAction, dashBoardLoader } from './pages/Dashboard';
 import Error from './pages/Error';
 import Main, { MainLoader } from './pages/layouts/Main';
-import AccountDetails from './banking/AccountDetails';
+import AccountDetails, { accountDetailsLoader } from './banking/AccountDetails';
 import AccountCreate from './banking/AccountCreate';
 import { logoutAction } from './actions/logout';
 import { ToastContainer } from 'react-toastify';
@@ -34,6 +34,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/accounts/:id",
+        loader: accountDetailsLoader,
         element: <AccountDetails/>
       },
       {

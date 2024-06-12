@@ -54,7 +54,7 @@ const DashBoard = () => {
                 <div className="mb-4 flex items-start gap-x-6">
                     <BudgetPieChart budgets={data.budgets}/>
                     <AddTransaction accounts={data.accounts} budgets={data.budgets} />
-                    <BudgetBarChart budgets={data.budgets}/>
+                    <BudgetBarChart budgets={data.budgets} height={450} width={500} showExpand={true} />
                 </div> 
                 <div className="mb-4 flex items-start gap-x-6">
                     <AccountList accounts={data.accounts.filter((a) => a.type==="Savings")} title="Savings Accounts"/>

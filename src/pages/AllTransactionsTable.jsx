@@ -4,6 +4,7 @@ import { formatTransactions, getTransactions } from "../Service/TransactionServi
 import { getAccounts } from "../Service/AccountService";
 import { getBudgets } from "../Service/BudgetService";
 import { TransactionTable } from "../components/TransactionTable";
+import BudgetBarChart from "../components/Charts/BudgetBarChart";
  
 export async function transactionLoader(){
 
@@ -14,14 +15,14 @@ export async function transactionLoader(){
     ]);
 
     const transactions = await formatTransactions(accounts.accounts, budgets.budgets, data.transactions);
-    return { transactions }
+    return { transactions, budgets }
 }
 
 
  
 export function AllTransactionsTable() {
 
-    const {transactions} = useLoaderData()
+    const {transactions, budgets} = useLoaderData()
     const navigate = useNavigate();
 
 
@@ -42,6 +43,7 @@ export function AllTransactionsTable() {
           <NavLink to={navigate(-1)}>Back</NavLink>
           </Typography>
           </div>
+          <BudgetBarChart budgets={budgets.budgets} />
           <TransactionTable transactions={transactions} />
     </Card>
   );
