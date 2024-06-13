@@ -18,21 +18,12 @@ export async function budgetDetailsLoader({params}){
 const BudgetDetails = () => {
     const {budget, transactions} = useLoaderData();
     return (
-        <div className="gap-4">
+        <div className="flex flex-col gap-4 items-center">
             <Card className="w-96">
             <CardBody>
-                <div className="mb-4 flex items-center justify-between">
+                <div className="mb-4 flex justify-between">
                 <Typography variant="h5" color="blue-gray" className="">
                 Budget Details - {budget.name}
-                </Typography>
-                <Typography
-                    as="a"
-                    href="#"
-                    variant="small"
-                    color="blue"
-                    className="font-bold"
-                >
-                    View all
                 </Typography>
                 </div>
                 <div className="divide-y-4 divide-gray-200">
@@ -74,8 +65,8 @@ const BudgetDetails = () => {
                     </div>
                 </div>
             </CardBody>
-        </Card>
-        <RecentTransactions transactions={transactions}/>
+            </Card>
+            <RecentTransactions transactions={transactions}/>
        </div>
     )
 }

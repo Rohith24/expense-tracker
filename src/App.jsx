@@ -14,6 +14,7 @@ import 'react-toastify/ReactToastify.css'
 import { AllTransactionsTable, transactionLoader } from './pages/AllTransactionsTable';
 import CreateTransaction, { AddTransactionAction, createTransactionLoader } from './pages/CreateTransaction';
 import BudgetDetails, { budgetDetailsLoader } from './components/BudgetDetails';
+import { Accounts, accountsLoader } from './pages/Accounts';
 
 const router = createBrowserRouter([
   {
@@ -34,13 +35,23 @@ const router = createBrowserRouter([
         element: <h1>About</h1>
       },
       {
-        path: "/accounts/:id",
-        loader: accountDetailsLoader,
-        element: <AccountDetails/>
-      },
-      {
-        path: "/accounts/create",
-        element: <AccountCreate/>
+        path: "/accounts",
+        children:[
+          {
+            index: true,
+            loader: accountsLoader,
+            element: <Accounts />
+          },
+          {
+            path: ":id",
+            loader: accountDetailsLoader,
+            element: <AccountDetails />
+          },
+          {
+            path: "create",
+            element: <AccountCreate/>
+          }
+        ]
       },
       {
         path: "/transactions",

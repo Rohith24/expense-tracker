@@ -6,12 +6,13 @@ import {
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
 import { NavLink } from "react-router-dom";
+import { roundNumber } from "../../Service/helpers";
 
 
  
 export default function BudgetBarChart({budgets, height = 0, width = 0, showExpand = false}) {
-  const Spent = budgets.map(budget => budget.tillNow);
-  const amounts = budgets.map(budget => budget.amount-budget.tillNow);
+  const Spent = budgets.map(budget => roundNumber(Math.abs(budget.tillNow)));
+  const amounts = budgets.map(budget => roundNumber(Math.abs(budget.amount-budget.tillNow)));
   const names = budgets.map(budget => budget.name);
   
   const chartConfig = {

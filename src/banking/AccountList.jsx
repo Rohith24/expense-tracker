@@ -1,6 +1,6 @@
 import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { formatCurrency } from "../Service/helpers";
 
 const AccountList = ({accounts, title}) => {
@@ -16,13 +16,11 @@ const AccountList = ({accounts, title}) => {
                     {title}
                 </Typography>
                 <Typography
-                    as="a"
-                    href="#"
                     variant="small"
                     color="blue"
                     className="font-bold"
                 >
-                    View all
+                    <NavLink to="/accounts">View all</NavLink>
                 </Typography>
                 </div>
                 <div className="divide-y-4 divide-gray-200">
