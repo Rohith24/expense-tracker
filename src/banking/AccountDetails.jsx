@@ -3,6 +3,8 @@ import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import { useState } from "react";
 import { DeleteAccount, getAccount } from "../Service/AccountService";
 import { RecentTransactions } from "../components/RecentTransactions";
+import { AllTransactionsTable } from "../pages/AllTransactionsTable";
+import { TransactionTable } from "../components/TransactionTable";
 
 
 export async function accountDetailsLoader({params}){
@@ -114,7 +116,7 @@ const AccountDetails = () => {
                     <Button className="mt-6 text-center" fullWidth onClick={handleSubmit} loading={isPending}>Delete</Button>
                 </div>
                 {
-                    data.account.Transactions && <RecentTransactions transactions={data.account.Transactions} />
+                    data.account.Transactions && <TransactionTable transactions={data.account.Transactions} />
                 }
                 </div>
             }

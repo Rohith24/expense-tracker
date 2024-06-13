@@ -14,11 +14,13 @@ export async function getTransaction(id) {
 
 }
 
-export async function getTransactions() {
+export async function getTransactions({accountId, budgetId}) {
     try {
         const headers = getHeaders();
+        console.log(budgetId)
+        let params = { budget: budgetId };
         const response = await axios(
-            `${API_URL}/transaction`, { headers }
+            `${API_URL}/transaction`, { headers, params }
         );
         return response.data;
     } catch (error) {

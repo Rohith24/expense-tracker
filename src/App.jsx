@@ -13,6 +13,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/ReactToastify.css'
 import { AllTransactionsTable, transactionLoader } from './pages/AllTransactionsTable';
 import CreateTransaction, { AddTransactionAction, createTransactionLoader } from './pages/CreateTransaction';
+import BudgetDetails, { budgetDetailsLoader } from './components/BudgetDetails';
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,11 @@ const router = createBrowserRouter([
         element: <CreateTransaction/>,
         loader: createTransactionLoader,
         action: AddTransactionAction
+      },
+      {
+        path: "/budgets/:id",
+        loader: budgetDetailsLoader,
+        element: <BudgetDetails />
       }
     ]
   },

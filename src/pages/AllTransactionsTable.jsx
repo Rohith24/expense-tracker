@@ -1,5 +1,5 @@
 import { Card, Typography } from "@material-tailwind/react";
-import { NavLink, useNavigate, useLoaderData } from "react-router-dom";
+import { NavLink, useNavigate, useLoaderData, Navigate } from "react-router-dom";
 import { formatTransactions, getTransactions } from "../Service/TransactionService";
 import { getAccounts } from "../Service/AccountService";
 import { getBudgets } from "../Service/BudgetService";
@@ -8,13 +8,12 @@ import BudgetBarChart from "../components/Charts/BudgetBarChart";
  
 export async function transactionLoader(){
 
-    const [accounts, budgets, data] = await Promise.all([
-      getAccounts(),
+    const [budgets, data] = await Promise.all([
       getBudgets(),
-      getTransactions()
+      getTransactions({})
     ]);
 
-    const transactions = await formatTransactions(accounts.accounts, budgets.budgets, data.transactions);
+    const transactions = data.transactions;
     return { transactions, budgets }
 }
 
@@ -40,7 +39,7 @@ export function AllTransactionsTable() {
               color="blue"
               className="font-bold"
           >
-          <NavLink to={navigate(-1)}>Back</NavLink>
+            <NavLink  onClick={()=>navigate(-1)}>Back</NavLink>
           </Typography>
           </div>
           <BudgetBarChart budgets={budgets.budgets} />

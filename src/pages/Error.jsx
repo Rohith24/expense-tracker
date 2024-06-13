@@ -11,7 +11,7 @@ const Error = () => {
                 {error.message || error.statusText} 
         </div>
         <div className="flex flex-row gap-x-4 justify-center items-center">
-            <NavLink to={navigate(-1)}>Back</NavLink>
+            <NavLink onClick={()=>navigate(-1)}>Back</NavLink>
             <NavLink to="/" >Home</NavLink>
         </div>
         </>

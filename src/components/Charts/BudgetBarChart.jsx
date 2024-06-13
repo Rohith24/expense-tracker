@@ -5,6 +5,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
+import { NavLink } from "react-router-dom";
 
 
  
@@ -127,13 +128,11 @@ export default function BudgetBarChart({budgets, height = 0, width = 0, showExpa
             </Typography>
             {
               showExpand && <Typography
-                  as="a"
-                  href="/transactions"
                   variant="small"
                   color="blue"
                   className="font-bold"
                   >
-                  Expand
+                    <NavLink to="/transactions">Expand</NavLink>
               </Typography>
             }
       </CardHeader>
