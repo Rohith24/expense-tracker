@@ -1,6 +1,5 @@
 import { useLoaderData } from "react-router-dom";
 import { fetchData } from "../Service/helpers"
-import { useState } from "react";
 import AccountList from "../banking/AccountList";
 import Home from "../components/Home";
 import TransactionForm from "../components/TransactionForm";
@@ -40,12 +39,6 @@ export async function DashboardAction({request}){
 }
 
 const DashBoard = () => {
-    const [name, setName] = useState("Hello");
-
-    const OnSubmit=()=>{
-        console.log("Clicked");
-        setName("Clicked");
-    }
     const {userName, data} = useLoaderData()
     return (
         userName ? (

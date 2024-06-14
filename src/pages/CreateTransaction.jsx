@@ -3,8 +3,7 @@ import { addTransactionAction } from "../actions/addTransaction";
 import { getAccounts } from "../Service/AccountService";
 import { getBudgets } from "../Service/BudgetService";
 import TransactionForm from '../components/TransactionForm';
-import { redirect, useLoaderData, useNavigate } from 'react-router-dom';
-import { RecentTransactions } from '../components/RecentTransactions';
+import { redirect, useLoaderData } from 'react-router-dom';
 
 export async function AddTransactionAction({request}){
     const data = await request.formData();

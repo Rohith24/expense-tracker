@@ -1,10 +1,6 @@
 import { Typography } from "@material-tailwind/react";
-import { formatCurrency, formatDateToLocaleString } from "../Service/helpers";
+import { formatCurrency } from "../Service/helpers";
 import { NavLink } from "react-router-dom";
-
-function getColorBasedonType(type){
-    return type === "Credit" ? "green" : type === "Debit"? "red": "black";
-  }
 
 export function AccountsTable({accounts}) {
     const TABLE_HEAD = ["Sl.No", "Name", "Bank", "Account Type", "Available Balance",  "Initial Balance", "Interest", ""];

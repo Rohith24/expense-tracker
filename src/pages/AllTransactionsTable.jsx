@@ -1,7 +1,6 @@
 import { Card, Typography } from "@material-tailwind/react";
-import { NavLink, useNavigate, useLoaderData, Navigate } from "react-router-dom";
-import { formatTransactions, getTransactions } from "../Service/TransactionService";
-import { getAccounts } from "../Service/AccountService";
+import { NavLink, useNavigate, useLoaderData } from "react-router-dom";
+import { getTransactions } from "../Service/TransactionService";
 import { getBudgets } from "../Service/BudgetService";
 import { TransactionTable } from "../components/TransactionTable";
 import BudgetBarChart from "../components/Charts/BudgetBarChart";
@@ -24,10 +23,6 @@ export function AllTransactionsTable() {
     const {transactions, budgets} = useLoaderData()
     const navigate = useNavigate();
 
-
-    const TABLE_HEAD = ["Sl.No", "Type", "Account Name", "Budget Name", "Date", "Details", "Amount", ""];
- 
-    
   return (
     transactions && <Card className="h-full w-full">
         <div className="m-4 flex items-center justify-between">

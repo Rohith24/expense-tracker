@@ -4,7 +4,6 @@ import { getAccounts } from "../Service/AccountService";
 import { getBudgets } from "../Service/BudgetService";
 import TransactionForm from '../components/TransactionForm';
 import { useLoaderData } from 'react-router-dom';
-import { RecentTransactions } from '../components/RecentTransactions';
 import { getTransaction } from '../Service/TransactionService';
 
 export async function AddTransactionAction({request}){

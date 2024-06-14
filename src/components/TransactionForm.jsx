@@ -1,9 +1,8 @@
-import { Form, useFetcher } from "react-router-dom";
+import { useFetcher } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { Button, Card, CardBody, CardHeader, Input, Option, Select, Typography } from "@material-tailwind/react";
 import DatePicker from 'rsuite/DatePicker';
 import 'rsuite/DatePicker/styles/index.css';
-import { addTransactionAction } from "../actions/addTransaction";
 
 const TransactionForm = ({title, isEdit = false, accounts, budgets, transaction}) => {
     const fetcher = useFetcher()
@@ -26,6 +25,7 @@ const TransactionForm = ({title, isEdit = false, accounts, budgets, transaction}
     
     useEffect(() => {
         if (!isSubmitting) {
+            const today = new Date();
             formRef.current.reset() // It clears form if we didn't bind values.
             setType(transaction?.fromAccountId !== null && transaction?.fromAccountId !== undefined ? transaction?.toAccountId !== null && transaction?.toAccountId !== undefined ?'Transfer': 'Debit' : 'Credit')
             setFromAccount(transaction?.fromAccountId ?? '')
@@ -36,7 +36,7 @@ const TransactionForm = ({title, isEdit = false, accounts, budgets, transaction}
             setCategory(transaction?.category ?? '')
             setDetails(transaction?.details ?? '')
         }
-    }, [isSubmitting])
+    }, [isSubmitting, transaction])
 
     useEffect(()=>{
         setTransferId(budgets.find((b)=>b.name === "Transfer")?._id);

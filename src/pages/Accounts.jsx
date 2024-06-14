@@ -2,7 +2,6 @@ import { Card, Typography } from "@material-tailwind/react";
 import { NavLink, useNavigate, useLoaderData } from "react-router-dom";
 import { getAccounts } from "../Service/AccountService";
 import { AccountsTable } from "../components/AccountsTable";
-import { generateUniqueColors } from "../Service/helpers";
 import { AccountsValue } from "../components/Charts/AccountsValue";
  
 export async function accountsLoader(){
@@ -17,16 +16,6 @@ export async function accountsLoader(){
 export function Accounts() {
     const {accounts} = useLoaderData()
     const navigate = useNavigate();
-
-    const totalBalanceByType = accounts.reduce((acc, account) => {
-        if (!acc[account.type]) {
-          acc[account.type] = 0;
-        }
-        acc[account.type] += account.balance;
-        return acc;
-      }, {});
-    
-    const colors = generateUniqueColors(Object.entries(totalBalanceByType).length);
 
     return (
         accounts && <>
