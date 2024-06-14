@@ -27,7 +27,7 @@ export function TransactionTable({transactions}) {
       </tr>
     </thead>
     <tbody>
-      {transactions.map(({ transactionDate, details, amount, type, fromAccount, toAccount, budget, category }, index) => {
+      {transactions.map(({ transactionDate, details, amount, type, fromAccount, toAccount, budget, category, _id }, index) => {
         let accountDetails = fromAccount ?? toAccount
         return (
             <tr key={index} className="even:bg-blue-gray-50/50">
@@ -52,7 +52,7 @@ export function TransactionTable({transactions}) {
                         fromAccount?.name !== null && fromAccount?.name !== undefined ? (toAccount?.name !== null && toAccount?.name !== undefined ? 
                         (<><NavLink to={`/accounts/${fromAccount._id}`}>{fromAccount?.name}</NavLink>{" - "} 
                          <NavLink to={`/accounts/${toAccount._id}`}>{toAccount?.name}</NavLink></>
-                        ) : <NavLink to={`/accounts/${fromAccount._id}`}>{fromAccount?.name}</NavLink>) : <NavLink to={`/budgets/${budget._id}`}>{toAccount?.name}</NavLink>
+                        ) : <NavLink to={`/accounts/${fromAccount._id}`}>{fromAccount?.name}</NavLink>) : <NavLink to={`/accounts/${toAccount?._id}`}>{toAccount?.name}</NavLink>
                     }
                 </Typography>
               </td>
@@ -74,8 +74,8 @@ export function TransactionTable({transactions}) {
                 </Typography>
               </td>
               <td className="p-4">
-                <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium">
-                  Edit
+                <Typography variant="small" color="blue-gray" className="font-medium">
+                  <NavLink to={`/transactions/${_id}`}>Edit</NavLink>
                 </Typography>
               </td>
             </tr>

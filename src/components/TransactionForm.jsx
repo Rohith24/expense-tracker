@@ -1,20 +1,20 @@
 import { Form, useFetcher } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { Button, Input, Option, Select, Typography } from "@material-tailwind/react";
+import { Button, Card, CardBody, CardHeader, Input, Option, Select, Typography } from "@material-tailwind/react";
 import DatePicker from 'rsuite/DatePicker';
 import 'rsuite/DatePicker/styles/index.css';
 import { addTransactionAction } from "../actions/addTransaction";
 
-const AddTransaction = ({accounts, budgets}) => {
+const TransactionForm = ({title, isEdit = false, accounts, budgets, transaction}) => {
     const fetcher = useFetcher()
     const isSubmitting = fetcher.state === "submitting"
 
     const formRef= useRef();
 
     const [type, setType] = useState('Debit');
-    const [fromAccount, setFromAccount] = useState('');
-    const [toAccount, setToAccount] = useState('');
-    const [amount, setAmount] = useState(0);
+    const [fromAccount, setFromAccount] = useState(transaction?.fromAccountId ?? '');
+    const [toAccount, setToAccount] = useState(transaction?.toAccountId ?? '');
+    const [amount, setAmount] = useState(transaction?.amount ?? 0);
     const [category, setCategory] = useState('');
     const [details, setDetails] = useState('');
 
@@ -27,14 +27,14 @@ const AddTransaction = ({accounts, budgets}) => {
     useEffect(() => {
         if (!isSubmitting) {
             formRef.current.reset() // It clears form if we didn't bind values.
-            setType('Debit')
-            setFromAccount('')
-            setToAccount('')
-            setDate(today)
-            setCurrentDate(today)
-            setAmount(0)
-            setCategory('')
-            setDetails('')
+            setType(transaction?.fromAccountId !== null && transaction?.fromAccountId !== undefined ? transaction?.toAccountId !== null && transaction?.toAccountId !== undefined ?'Transfer': 'Debit' : 'Credit')
+            setFromAccount(transaction?.fromAccountId ?? '')
+            setToAccount(transaction?.toAccountId ?? '')
+            setDate(transaction?.transactionDate ? new Date(transaction?.transactionDate) : today)
+            setCurrentDate(transaction?.transactionDate ? new Date(transaction?.transactionDate) : today)
+            setAmount(transaction?.amount ?? 0)
+            setCategory(transaction?.category ?? '')
+            setDetails(transaction?.details ?? '')
         }
     }, [isSubmitting])
 
@@ -48,14 +48,24 @@ const AddTransaction = ({accounts, budgets}) => {
     };
 
     return (
-        <div className="mb-4 justify-between max-w-screen-lg sm:w-96">
-            <Typography color="red" variant="h4">Add New Transaction</Typography>
-            <div>
+        <Card className="mb-4 justify-between max-w-screen-lg sm:w-96">
+            <CardHeader
+                floated={false}
+                shadow={false}
+                color="transparent"
+                className="flex flex-col gap-4 rounded-none md:flex-row md:items-center justify-between"
+            >
+            <Typography color="red" variant="h4">{title}</Typography>
+            </CardHeader>
+            <CardBody className="p-4">
             <fetcher.Form 
                 method="post" 
                 ref={formRef}
                 className="mt-8 mb-6"
             >
+                <input type="hidden" name="_id" value={transaction?._id} />
+                <input type="hidden" name="changeCount" value={transaction?.changeCount} />
+                <input type="hidden" name="tenantCode" value={transaction?.tenantCode} />
                 <input type="hidden" name="_actionType" value="AddTransaction" />
                 <div className="mb-6 flex flex-row gap-6 items-center">
                     <Typography className="flex-col w-1/3" variant="small" color="gray">
@@ -158,13 +168,13 @@ const AddTransaction = ({accounts, budgets}) => {
                 </div>
                 <div className="mb-6 flex flex-row gap-6">
                     <Button className="mt-6 text-center items-center justify-center" fullWidth type="submit" title="Create Transaction" loading={isSubmitting}>{
-                        isSubmitting ? "Creating transaction" : "Create Transaction"
+                        isSubmitting ? isEdit ? "Updating transaction" : "Creating transaction" : isEdit ? "Update transaction" : "Create Transaction"
                     }</Button>
                 </div>
             </fetcher.Form>
-            </div>
-       </div>
+            </CardBody>
+       </Card>
     )
 }
 
-export default AddTransaction
+export default TransactionForm

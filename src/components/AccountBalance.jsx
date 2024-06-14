@@ -35,7 +35,7 @@ import { formatCurrency } from "../Service/helpers";
           className="m-0 mb-1 rounded-none border-b border-white/10 pb-8 text-center"
         >
           <Typography
-            variant="h2"
+            variant="h3"
             color="white"
             className="font-normal"
           >
@@ -46,7 +46,7 @@ import { formatCurrency } from "../Service/helpers";
             color="white"
             className="mt-6 flex justify-center gap-1 text-6xl font-normal"
           >
-            <span className="mt-2 text-3xl">{formatCurrency(amount, "INR")}</span>
+            <span className="mt-2 text-2xl">{formatCurrency(amount, "INR")}</span>
           </Typography>
           </CardBody>
       </Card>

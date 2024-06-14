@@ -5,7 +5,7 @@ export async function getTransaction(id) {
     try {
         const headers = getHeaders();
         const response = await axios(
-            `${API_URL}/transaction/${id}`, { headers }
+            `${API_URL}/transaction/get/${id}`, { headers }
         );
         return response.data;
     } catch (error) {
@@ -46,6 +46,17 @@ export async function SaveTransaction(formData) {
     const headers = getHeaders();
     try {
         const response = await axios.post(`${API_URL}/transaction`, formData, { headers });
+        return response.data;
+    } catch (err) {
+        throw new Error(err.message || " Network request failed");
+    }
+
+}
+
+export async function UpdateTransaction(id, formData) {
+    const headers = getHeaders();
+    try {
+        const response = await axios.patch(`${API_URL}/transaction/${id}`, formData, { headers });
         return response.data;
     } catch (err) {
         throw new Error(err.message || " Network request failed");

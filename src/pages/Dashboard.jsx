@@ -1,10 +1,9 @@
-import { Link, useLoaderData } from "react-router-dom";
-import { fetchData, formatCurrency } from "../Service/helpers"
+import { useLoaderData } from "react-router-dom";
+import { fetchData } from "../Service/helpers"
 import { useState } from "react";
 import AccountList from "../banking/AccountList";
-import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import Home from "../components/Home";
-import AddTransaction from "../components/AddTransaction";
+import TransactionForm from "../components/TransactionForm";
 import { toast } from "react-toastify";
 import { addTransactionAction } from "../actions/addTransaction";
 import { loginAction } from "../actions/login";
@@ -14,6 +13,7 @@ import { getDashboardData } from "../Service/DashboardService";
 import BudgetPieChart from "../components/Charts/BudgetPieChart";
 import BudgetBarChart from "../components/Charts/BudgetBarChart";
 import { RecentTransactions } from "../components/RecentTransactions";
+import { AccountsValue } from "../components/Charts/AccountsValue";
 
 
 export async function dashBoardLoader(){
@@ -51,9 +51,10 @@ const DashBoard = () => {
         userName ? (
             data?.accounts && (
             <>
-                <div className="mb-4 flex items-start gap-x-6">
+                <AccountsValue accounts={data.accounts} />
+                <div className="mt-2 mb-4 flex items-start gap-x-6">
                     <BudgetPieChart budgets={data.budgets}/>
-                    <AddTransaction accounts={data.accounts} budgets={data.budgets} />
+                    <TransactionForm title="Add Transaction" accounts={data.accounts} budgets={data.budgets} />
                     <BudgetBarChart budgets={data.budgets} height={450} width={500} showExpand={true} />
                 </div> 
                 <div className="mb-4 flex items-start gap-x-6">

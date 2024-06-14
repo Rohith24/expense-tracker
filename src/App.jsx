@@ -15,6 +15,7 @@ import { AllTransactionsTable, transactionLoader } from './pages/AllTransactions
 import CreateTransaction, { AddTransactionAction, createTransactionLoader } from './pages/CreateTransaction';
 import BudgetDetails, { budgetDetailsLoader } from './components/BudgetDetails';
 import { Accounts, accountsLoader } from './pages/Accounts';
+import UpdateTransaction, { updateTransactionLoader } from './pages/UpdateTransaction';
 
 const router = createBrowserRouter([
   {
@@ -55,18 +56,29 @@ const router = createBrowserRouter([
       },
       {
         path: "/transactions",
-        loader: transactionLoader,
-        element: <AllTransactionsTable />
+        children:[
+          {
+            index: true,
+            loader: transactionLoader,
+            element: <AllTransactionsTable />
+          },
+          {
+            path: "create",
+            element: <CreateTransaction/>,
+            loader: createTransactionLoader,
+            action: AddTransactionAction
+          },
+          {
+            path: ":id",
+            element: <UpdateTransaction/>,
+            loader: updateTransactionLoader,
+            action: AddTransactionAction
+          }
+        ]
       },
       {
         path: "logout",
         action: logoutAction
-      },
-      {
-        path: "/transaction/create",
-        element: <CreateTransaction/>,
-        loader: createTransactionLoader,
-        action: AddTransactionAction
       },
       {
         path: "/budgets/:id",
