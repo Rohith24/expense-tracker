@@ -16,6 +16,7 @@ import CreateTransaction, { AddTransactionAction, createTransactionLoader } from
 import BudgetDetails, { budgetDetailsLoader } from './components/BudgetDetails';
 import { Accounts, accountsLoader } from './pages/Accounts';
 import UpdateTransaction, { updateTransactionLoader } from './pages/UpdateTransaction';
+import AccountForm from './banking/AccountForm';
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,11 @@ const router = createBrowserRouter([
             path: ":id",
             loader: accountDetailsLoader,
             element: <AccountDetails />
+          },
+          {
+            path: ":id/edit",
+            loader: accountDetailsLoader,
+            element: <AccountForm />
           },
           {
             path: "create",

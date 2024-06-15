@@ -48,7 +48,7 @@ const TransactionForm = ({title, isEdit = false, accounts, budgets, transaction}
     };
 
     return (
-        <Card className="mb-4 justify-between max-w-screen-lg sm:w-96">
+        <Card className="flex flex-col justify-between max-w-screen-lg sm:w-96">
             <CardHeader
                 floated={false}
                 shadow={false}

@@ -32,7 +32,9 @@ const CreateTransaction = () => {
     
     const {accounts, budgets} = useLoaderData()
     return (
+        <div className='flex flex-col gap-4 items-center'>
         <TransactionForm title="Add Transaction" accounts={accounts} budgets={budgets} />
+        </div>
     )
 }
 

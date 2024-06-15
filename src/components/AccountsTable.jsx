@@ -66,8 +66,8 @@ export function AccountsTable({accounts}) {
                 </Typography>
               </td>
               <td className="p-4">
-                <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium">
-                  Edit
+                <Typography variant="small" color="blue-gray" className="font-medium">
+                  <NavLink to={`/accounts/${_id}/edit`}>Edit</NavLink>
                 </Typography>
               </td>
             </tr>
