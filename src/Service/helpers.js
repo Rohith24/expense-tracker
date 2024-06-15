@@ -6,7 +6,7 @@ export const deleteItem = (key) => {
     return localStorage.removeItem(key);
 }
 
-export const formatCurrency = (amount, currency) => {
+export const formatCurrency = (amount, currency = 'INR') => {
     return amount.toLocaleString(undefined, {
         style: "currency",
         currency: currency
