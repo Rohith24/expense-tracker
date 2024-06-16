@@ -1,5 +1,5 @@
 import { useFetcher } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Input, Option, Select, Typography } from "@material-tailwind/react";
 import 'rsuite/DatePicker/styles/index.css';
 import { addBudgetAction } from "../actions/addBudget";
@@ -14,7 +14,7 @@ export async function AddBudgetAction({request}){
 const AddBudget = () => {
     const fetcher = useFetcher()
     const isSubmitting = fetcher.state === "submitting"
-
+    const [type, setType] = useState();
     const formRef= useRef();
 
     useEffect(() => {
@@ -44,9 +44,10 @@ const AddBudget = () => {
                     <Typography className="flex-col w-1/3 " variant="small" color="gray">
                     Type:
                     </Typography>
-                    <Select label="Type" required >
-                        <Option value="Credit">Expense</Option>
-                        <Option value="Debit">Income</Option>
+                    <input type="hidden" name="type" value={type} />
+                    <Select label="Type" required value={type} onChange={setType}>
+                        <Option value="Expense">Expense</Option>
+                        <Option value="Income">Income</Option>
                     </Select>
                 </div>
                 <div className="mb-6 flex flex-row gap-6 items-center">

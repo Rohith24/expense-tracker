@@ -2,14 +2,14 @@ import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import { useState } from "react";
 import { DeleteAccount, getAccount } from "../Service/AccountService";
-import { RecentTransactions } from "../components/RecentTransactions";
-import { AllTransactionsTable } from "../pages/AllTransactionsTable";
 import { TransactionTable } from "../components/TransactionTable";
+import { fetchData } from "../Service/helpers";
 
 
 export async function accountDetailsLoader({params}){
+    const userName = fetchData("userName");
     const data = await getAccount(params.id);
-    return { data }
+    return { data, userName }
 }
 
 const AccountDetails = () => {

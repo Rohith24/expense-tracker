@@ -11,22 +11,39 @@ import { roundNumber } from "../../Service/helpers";
 
  
 export default function BudgetBarChart({budgets, height = 0, width = 0, showExpand = false}) {
-  const Spent = budgets.map(budget => roundNumber(Math.abs(budget.tillNow)));
-  const amounts = budgets.map(budget => roundNumber(Math.abs(budget.amount-budget.tillNow)));
+  const Spent = budgets.map(budget => {
+    if(budget.tillNow > budget.amount){
+      return Math.abs(budget.amount);
+    }
+    return roundNumber(budget.tillNow);
+  });
+  let hasOverflow = false;
+  const OverFlow = budgets.map(budget => {
+    let over = roundNumber(budget.amount-budget.tillNow);
+    if(over < 0){
+      hasOverflow = true;
+      return Math.abs(over);
+    }
+    return 0;
+  });
+  const amounts = budgets.map(budget => {
+    let over = roundNumber(budget.amount-budget.tillNow);
+    if(over >= 0){
+      return Math.abs(over);
+    }
+    return 0;
+  });
+
+  const series = [];
+  series.push({name: "Spent", data: Spent });
+  series.push({name: "Remaining", data: amounts});
+  if (hasOverflow)
+  series.push({name: "Overflow", data: OverFlow});
   const names = budgets.map(budget => budget.name);
   
   const chartConfig = {
     type: "bar",
-    series: [
-      {
-        name: "Spent",
-        data: Spent,
-      },
-      {
-        name: "Remaning",
-        data: amounts,
-      },
-    ],
+    series: series,
     options: {
       chart: {
         stacked: true,
@@ -60,10 +77,10 @@ export default function BudgetBarChart({budgets, height = 0, width = 0, showExpa
       },
       xaxis: {
         axisTicks: {
-          show: false,
+          show: true,
         },
         axisBorder: {
-          show: false,
+          show: true,
         },
         labels: {
           style: {

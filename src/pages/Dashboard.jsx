@@ -13,6 +13,7 @@ import BudgetPieChart from "../components/Charts/BudgetPieChart";
 import BudgetBarChart from "../components/Charts/BudgetBarChart";
 import { RecentTransactions } from "../components/RecentTransactions";
 import { AccountsValue } from "../components/Charts/AccountsValue";
+import AccountCreate from "../banking/AccountCreate";
 
 
 export async function dashBoardLoader(){
@@ -42,23 +43,42 @@ const DashBoard = () => {
     const {userName, data} = useLoaderData()
     return (
         userName ? (
-            data?.accounts && (
             <>
-                <AccountsValue accounts={data.accounts} />
+                {
+                    data?.accounts && <AccountsValue accounts={data.accounts} />
+                }
                 <div className="mt-2 mb-4 flex items-start gap-x-6">
-                    <BudgetPieChart budgets={data.budgets}/>
-                    <TransactionForm title="Add Transaction" accounts={data.accounts} budgets={data.budgets} />
-                    <BudgetBarChart budgets={data.budgets} height={450} width={500} showExpand={true} />
+                    {
+                        data?.budgets?.length > 0 ? <BudgetPieChart budgets={data.budgets}/> : <AddBudget />
+                    }
+                    {
+                        (data?.accounts === null || data?.accounts === undefined || data.accounts?.length === 0) && <AccountCreate />
+                    }
+                    {
+                        data?.accounts?.length > 0 && data?.budgets?.length > 0 && <TransactionForm title="Add Transaction" accounts={data.accounts} budgets={data.budgets} />
+                    }
+                    {
+                        data?.budgets?.length > 0 && <BudgetBarChart budgets={data.budgets} height={450} width={500} showExpand={true} />
+                    }
                 </div> 
                 <div className="mb-4 flex items-start gap-x-6">
-                    <AccountList accounts={data.accounts.filter((a) => a.type==="Savings")} title="Savings Accounts"/>
-                    <AccountList accounts={data.accounts.filter((a) => a.type==="Credit Card")} title="Credit Card Accounts"/>
-                    <AddBudget />
+                    {
+                        data?.accounts?.length > 0 && <>
+                            <AccountList accounts={data.accounts.filter((a) => a.type ==="Savings")} title="Savings Accounts"/>
+                            <AccountList accounts={data.accounts.filter((a) => a.type ==="Credit Card")} title="Credit Card Accounts"/>
+                        </>
+                    }
+                    {
+                        data?.budgets?.length > 0 && <AddBudget />
+                    }
                 </div>
-                <div className="mb-4 flex items-start gap-x-6">
-                    <RecentTransactions transactions={data.recentTransactions}/>
-                </div>
-            </>)) : 
+                {
+                    data?.recentTransactions?.length > 0 && 
+                    <div className="mb-4 flex items-start gap-x-6">
+                        <RecentTransactions transactions={data.recentTransactions}/>
+                    </div>
+                }
+            </>) : 
             (
             <Home />
             )

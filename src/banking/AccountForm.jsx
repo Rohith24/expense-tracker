@@ -5,10 +5,10 @@ import { useLoaderData, useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify";
 
 const AccountForm = () => {
-    const {data} = useLoaderData();
+    const {data, userName} = useLoaderData();
 
     const account = data.account;
-
+    
     const [accountType, setAccountType] = useState(account?.type);
     const [name, setName] = useState(account?.name ?? '');
     const [bankName, setBankName] = useState(account?.bankId ?? '');
@@ -27,7 +27,7 @@ const AccountForm = () => {
         accountDetails.currency = currency;
         accountDetails.interest = interest;
         setIsPending(true);
-        SaveAccount({account: accountDetails, user: "hello"}).then((resp) => {
+        SaveAccount({account: accountDetails, user: userName}).then((resp) => {
             if(resp.code === '0'){
                 toast.success(resp.message);
                 navigation(-1);

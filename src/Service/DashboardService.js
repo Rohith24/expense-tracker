@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { getAccounts } from "./AccountService";
 import { getBudgets } from "./BudgetService";
 import { getLatestTransactions, formatTransactions } from "./TransactionService";
@@ -10,9 +11,25 @@ export async function getDashboardData() {
             getLatestTransactions()
         ]);
 
+        if(accounts.code === "-1"){
+            toast.error(accounts.message);
+        }
+
+        
+        if(budgets.code === "-1"){
+            toast.error(budgets.message);
+        }
+
+        
+        if(latestTransactions.code === "-1"){
+            toast.error(latestTransactions.message);
+        }
+
         if(accounts.code === "0" && budgets.code === "0" && latestTransactions.code === "0"){
-            
-            const transactions = await formatTransactions(accounts.accounts, budgets.budgets, latestTransactions.transactions);
+            let transactions = [];
+            if(accounts.accounts && budgets.budgets){
+                transactions =  await formatTransactions(accounts.accounts, budgets.budgets, latestTransactions.transactions);
+            }
             return {
                 code: accounts.code || budgets.code,
                 accounts: accounts.accounts,
@@ -20,9 +37,6 @@ export async function getDashboardData() {
                 recentTransactions: transactions,
                 message: accounts.message + " " + budgets.message
             };
-        }
-        else{
-            throw new Error(accounts.message ? accounts.message : budgets.message ? budgets.message: latestTransactions.message ? latestTransactions.message: "Error occurred");
         }
         
     } catch (error) {

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { SaveAccount } from "../Service/AccountService";
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify";
+import { fetchData } from "../Service/helpers";
 
 const AccountCreate = () => {
 
@@ -19,10 +20,11 @@ const AccountCreate = () => {
         e.preventDefault();
         const account = { bankId: bankName, name, type: accountType, initBalance, interest, currency, deleteMark: 0,
             changeCount:0,isActive:0 }
-        
+        const userName = fetchData("userName");
+
         setIsPending(true);
         
-        SaveAccount({account, user: "hello"}).then((resp) => {
+        SaveAccount({account, user: userName}).then((resp) => {
             if(resp.code === '0'){
                 toast.success(resp.message);
                 navigation(-1);

@@ -1,15 +1,17 @@
 import { toast } from "react-toastify";
 import { SaveBudget } from "../Service/BudgetService";
+import { fetchData } from "../Service/helpers";
 
 export async function addBudgetAction(formData) {
     console.log(formData);
     try {
         formData.createdBy = "Rohith";
         formData.dateCreated = new Date().toISOString(); // Use ISO string for dateCreated
-        const response = await addBudget({ budget: formData, user: "hello" });
+        const userName = fetchData("userName");
+        const response = await addBudget({ budget: formData, user: userName });
         return response;
     } catch (e) {
-        toast.error('Budget failed');
+        toast.error('Budget failed: ' + e.message);
         return null; // Return null in case of error
     }
 }

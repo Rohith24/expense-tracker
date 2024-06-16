@@ -1,19 +1,19 @@
-import { redirect } from "react-router-dom";
-import { deleteItem } from "../Service/helpers";
 import { toast } from "react-toastify";
 import { SaveTransaction, UpdateTransaction } from "../Service/TransactionService";
+import { fetchData } from "../Service/helpers";
 
 export async function addTransactionAction(formData) {
     console.log(formData);
     try {
         let response;
+        const userName = fetchData("userName");
         if(formData._id === null || formData._id === undefined || formData._id === '') {
             delete formData._id;
-            formData.createdBy = "Rohith";
+            formData.createdBy = userName;
             formData.dateCreated = new Date().toISOString(); // Use ISO string for dateCreated
-            response = await createTransaction({ transaction: formData, user: "hello" });
+            response = await createTransaction({ transaction: formData, user: userName });
         }else {
-            response = await updateTransaction({ transaction: formData, user: "hello" });
+            response = await updateTransaction({ transaction: formData, user: userName });
         }
         return response;
     } catch (e) {
