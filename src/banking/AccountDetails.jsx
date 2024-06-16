@@ -32,10 +32,9 @@ const AccountDetails = () => {
     }
 
     return ( 
-        <div className="contents">
-            { data?.account && 
-                <div>
-                <Card className="w-100">
+             data?.account && 
+                <>
+                <Card className="flex w-100">
                     <CardBody>
                         <div
                         key={data?.account?._id}
@@ -118,9 +117,7 @@ const AccountDetails = () => {
                 {
                     data.account.Transactions && <TransactionTable transactions={data.account.Transactions} />
                 }
-                </div>
-            }
-        </div>
+                </>
      );
 }
  

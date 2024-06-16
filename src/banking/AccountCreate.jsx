@@ -2,6 +2,7 @@ import { Button, Input, Option, Select, Typography } from "@material-tailwind/re
 import { useState } from "react";
 import { SaveAccount } from "../Service/AccountService";
 import { useNavigate } from 'react-router-dom'
+import { toast } from "react-toastify";
 
 const AccountCreate = () => {
 
@@ -22,9 +23,14 @@ const AccountCreate = () => {
         setIsPending(true);
         
         SaveAccount({account, user: "hello"}).then((resp) => {
-            console.log(resp);
-            navigation('/');
+            if(resp.code === '0'){
+                toast.success(resp.message);
+                navigation(-1);
+            }else{
+                toast.error("Unable to Create Account: " + resp.message);
+            }
         }).catch((message) => {
+            toast.error(message);
             console.log(message);
         }).finally(()=>{
             setIsPending(false);
@@ -32,7 +38,7 @@ const AccountCreate = () => {
     }
 
     return ( 
-        <div className="mb-4 justify-between">
+        <div className="flex flex-col gap-4 items-center">
             <Typography color="red" variant="h2">Create New Account</Typography>
             <div>
             <form className="mt-8 mb-6 w-450 max-w-screen-lg sm:w-96" onSubmit={handleSubmit}>
