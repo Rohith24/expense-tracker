@@ -25,19 +25,17 @@ export async function getDashboardData() {
             toast.error(latestTransactions.message);
         }
 
-        if(accounts.code === "0" && budgets.code === "0" && latestTransactions.code === "0"){
-            let transactions = [];
-            if(accounts.accounts && budgets.budgets){
-                transactions =  await formatTransactions(accounts.accounts, budgets.budgets, latestTransactions.transactions);
-            }
-            return {
-                code: accounts.code || budgets.code,
-                accounts: accounts.accounts,
-                budgets: budgets.budgets,
-                recentTransactions: transactions,
-                message: accounts.message + " " + budgets.message
-            };
+        let transactions = [];
+        if(accounts.accounts && budgets.budgets && latestTransactions.code !== "-1"){
+            transactions =  await formatTransactions(accounts.accounts, budgets.budgets, latestTransactions.transactions);
         }
+        return {
+            code: accounts.code || budgets.code,
+            accounts: accounts.accounts,
+            budgets: budgets.budgets,
+            recentTransactions: transactions,
+            message: accounts.message + " " + budgets.message
+        };
         
     } catch (error) {
         throw error;
